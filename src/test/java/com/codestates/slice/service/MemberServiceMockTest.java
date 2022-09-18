@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
@@ -30,9 +31,8 @@ public class MemberServiceMockTest {
 
         //given
         Member member = new Member("hgd@naver.com","홍길동","010-1111-1111");
-
-        given(memberRepository.findByEmail(member.getEmail()))
-                .willReturn(Optional.of(member));
+        Optional<Member> optionalMember = Optional.of(member);
+        given(memberRepository.findByEmail(Mockito.anyString())).willReturn(optionalMember);
 
         assertThrows(BusinessLogicException.class, ()-> memberService.createMember(member));
     }
